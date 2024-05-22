@@ -17,21 +17,27 @@ public class TrainSearchService {
     private TrainRepository trainRepository;
 
     public ResponseEntity<?> searchTrains(TrainSearchCriteria criteria) {
-        // Implement search logic based on criteria
-        String boardingStation =  criteria.getBoardingStationName();
-        String dropOffStation =  criteria.getDropOffStationName();
+        // Implementing the  search logic based on criteria of a user
+
+
+
+        // Creating a list of stations
+        String boardingStation = criteria.getBoardingStationName();
+        String dropOffStation = criteria.getDropOffStationName();
         LocalDateTime departureTimeFrom = criteria.getDepartureTimeFrom();
         LocalDateTime departureTimeTo = criteria.getDepartureTimeTo();
+//        Integer boardingStationDistanceFrom = criteria.getBoardingStationDistanceFrom();
+//        Integer dropOffStationDistanceTo = criteria.getDropOffStationDistanceTo();
 
         if (boardingStation == null || dropOffStation == null) {
             return ResponseEntity.badRequest().body("Boarding station or drop-off station should not be empty");
         }
 
-        // Create a list of stations
         if (departureTimeFrom != null && departureTimeTo != null) {
-            List<Train> trains = trainRepository.findByRoutesBoardingStationNameAndRoutesDepartureTimeBetweenOrRoutesDropOffStationNameAndRoutesDepartureTimeBetween(
-                    boardingStation, departureTimeFrom, departureTimeTo,
-                    dropOffStation, departureTimeFrom, departureTimeTo);
+            List<Train> trains = trainRepository.findByNearbyStationsAndDepartureTime(
+                    boardingStation, 5, 5,
+                    dropOffStation, 5, 5,
+                    departureTimeFrom, departureTimeTo);
             return ResponseEntity.ok(trains);
         } else {
             List<Train> trains = trainRepository.findByRoutesBoardingStationNameAndRoutesDropOffStationName(

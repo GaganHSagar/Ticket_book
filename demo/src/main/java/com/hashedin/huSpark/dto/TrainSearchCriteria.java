@@ -10,9 +10,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TrainSearchCriteria {
-    private LocalDateTime departureTimeFrom;
-    private LocalDateTime departureTimeTo;
     private String boardingStationName;
     private String dropOffStationName;
-
+    private LocalDateTime departureTimeFrom;
+    private LocalDateTime departureTimeTo;
+//    private Integer boardingStationDistanceFrom;
+//    private Integer dropOffStationDistanceTo;
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -14,27 +15,45 @@ import java.time.LocalDate;
 @Entity
 public class Booking {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+        @ManyToOne
+        @JoinColumn(name = "user_id")
+        private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "train_id")
-    private Train train;
+        @ManyToOne
+        @JoinColumn(name = "train_id")
+        private Train train;
 
-    @Column
-    @NotNull
-    private LocalDate bookingDate;
+        @ManyToOne
+        @JoinColumn(name = "boarding_station_id")
+        @NotNull(message = "Boarding station is required")
+        private Station boardingStation;
 
-    @Column
-    @NotNull
-    private LocalDate travelDate;
+        @ManyToOne
+        @JoinColumn(name = "dropoff_station_id")
+        @NotNull(message = "Drop-off station is required")
+        private Station dropOffStation;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private SeatType seatType;
+        @Column
+        @NotNull(message = "Booking date is required")
+        private LocalDate bookingDate;
+
+        @Column
+        @NotNull(message = "Travel date is required")
+        private LocalDate travelDate;
+
+        @Enumerated(EnumType.STRING)
+        @NotNull(message = "Seat type is required")
+        private SeatType seatType;
+
+        // List of passengers
+        @ManyToOne
+        @JoinColumn(name = "booking_id")
+        private Booking booking;
+
+        @Column
+        private boolean bookingStatus;
 }

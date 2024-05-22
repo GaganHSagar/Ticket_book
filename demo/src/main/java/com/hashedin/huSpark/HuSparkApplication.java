@@ -11,5 +11,4 @@ public class HuSparkApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HuSparkApplication.class, args);
 	}
-
 }
